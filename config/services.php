@@ -31,4 +31,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'reqius_name' => [
+        'token' => env('REQIUS_NAME_TOKEN')
+    ],
+
+    'bitrix' => [
+        'rest_key' => env('BITRIX_REST_KEY')
+    ],
+
 ];
