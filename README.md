@@ -1,27 +1,34 @@
 ## Installation
 
-Dillinger requires [Node.js](https://nodejs.org/) v10+ to run.
-
-Install the dependencies and devDependencies and start the server.
-
 склонировать проект
+
+Установить зависимости:
 
 ```sh
 composer install
 ```
 
-создать файл .env в корне проекта и записать ключи bitrix и Regius.name
-выполнить миграцию
+создать файл .env в корне проекта и записать ключ rest bitrix, и ключи Dadata
+
+Сгенерировать ключ проекта:
+
+```sh
+php artisan key:generate
+```
+
 запустить проект
-запустить очереди
 
 ## about
 
-ендпоинт скрипта [site.ru]/api/setfield
+ендпоинт скрипта [site.ru]/api/setregion (метод - post)
 
 принимает два параметра:
 
 -   phone - обязательное поле;
--   leadId - обязательное поле;
+-   lead_id - обязательное поле;
 
-скрипт работает с помощью очереди, задержка перед каждой очередью пять секунд
+Возможны три ошибки:
+
+-   недостаточно средств на балансе (Dadata);
+-   Превышено количество запросов в секунду или в сутки (Dadata);
+-   Не указаные нужные обязательные поля (Validation error);

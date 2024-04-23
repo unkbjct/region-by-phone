@@ -2,6 +2,7 @@
 
 use App\Jobs\SetBitrixField;
 use App\Webhooks\PhoneRegionGetter;
+use App\Webhooks\RegionGetter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -17,26 +18,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/setfield', function (Request $request) {
+Route::post('/setregion', function (Request $request) {
     $errs = [];
 
     if (!$request->has("phone") || $request->input("phone") === "") $errs['phone'] = 'phone is required field';
-    if (!$request->has("leadId") || $request->input("leadId") === "") $errs['leadId'] = 'leadId is required field';
+    if (!$request->has("lead_id") || $request->input("lead_id") === "") $errs['lead_id'] = 'lead_id is required field';
 
     if (sizeof($errs) > 0) return response()->json(
         [
             'status' => 'error',
+            'error_message' => 'validation_error',
             'errors' => $errs,
         ],
         422
     );
 
-    SetBitrixField::dispatch($request->leadId, $request->phone);
-
-    return response()->json(
-        [
-            'status' => 'success',
-        ],
-        200
-    );
+    return RegionGetter::handler($request->input("lead_id"), $request->input("phone"));
 });
